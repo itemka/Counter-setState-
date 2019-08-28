@@ -8,21 +8,46 @@ class App extends React.Component {
     state = {
         number: 0,
         buttons: [
-            {buttonsTitle: '+'},
+            {id: 1, buttonsTitle: '+'},
+            {id: 2, buttonsTitle: 'Reset'},
         ],
+        limit: {
+            limitTop: 5,
+            errorColor: false,
+            errorEnd: false,
+            errorEndText: 'Stop'
+        },
     };
 
     onClickPlusNumber = () => {
-        let newNumber = this.state.number;
-        this.setState({number: newNumber + 1});
+        if (this.state.number < this.state.limit.limitTop) {
+
+            this.setState({number: this.state.number + 1, limit: {...this.state.limit, errorColor: false, errorEnd: false}})
+
+        } else if (this.state.number === this.state.limit.limitTop) {
+
+            this.setState({limit: {...this.state.limit, errorColor: true, errorEnd: false}})
+
+        } else if (this.state.number > this.state.limit.limitTop) {
+
+            this.setState({limit: {...this.state.limit, errorColor: false, errorEnd: true}});
+        }
+    };
+
+    onClickReset = () => {
+        this.setState({number: 0, limit: {...this.state.limit, errorColor: false, errorEnd: false}})
     };
 
     render = () => {
         return (
             <div>
-                <ShowNumber number={this.state.number}/>
+
+                <ShowNumber limit={this.state.limit} number={this.state.number}/>
                 <Button onClickButton={() => this.onClickPlusNumber()}
                         buttonsTitle={this.state.buttons[0].buttonsTitle}/>
+                <Button onClickButton={() => this.onClickReset()}
+                        buttonsTitle={this.state.buttons[1].buttonsTitle}/>
+
             </div>
         );
     }
