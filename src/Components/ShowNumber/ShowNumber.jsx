@@ -1,12 +1,11 @@
 import React from 'react'
 
-class ShowNumber extends React.Component {
-    render() {
-        return (
-            <>
-                {this.props.number}
-            </>
-        )
-    }
-}
+const ShowNumber = props => {
+    return (
+        <>
+            {props.number}
+        </>
+    );
+};
+
 export default ShowNumber;

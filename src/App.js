@@ -12,11 +12,17 @@ class App extends React.Component {
         ],
     };
 
+    onClickPlusNumber = () => {
+        let newNumber = this.state.number;
+        this.setState({number: newNumber + 1});
+    };
+
     render = () => {
         return (
             <div>
                 <ShowNumber number={this.state.number}/>
-                <Button onClickButton={()=>{}} buttonsTitle={this.state.buttons[0].buttonsTitle}/>
+                <Button onClickButton={() => this.onClickPlusNumber()}
+                        buttonsTitle={this.state.buttons[0].buttonsTitle}/>
             </div>
         );
     }
