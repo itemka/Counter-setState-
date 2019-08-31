@@ -7,13 +7,15 @@ import InputValue from "./Components/InputValue/InputValue";
 class App extends React.Component {
 
     state = {
-        number: 0,
+        counter: 0,
         buttons: [
             {id: 1, buttonsTitle: '+'},
             {id: 2, buttonsTitle: 'Reset'},
+            {id: 3, buttonsTitle: 'Settings'},
         ],
         limit: {
-            limitTop: 5,
+            startValue: 0,
+            maxValue: 5,
             errorColor: false,
             errorEnd: false,
             errorEndText: 'Stop'
@@ -21,26 +23,42 @@ class App extends React.Component {
     };
 
     onClickPlusNumber = () => {
-        if (this.state.number < this.state.limit.limitTop) {
+        if (this.state.counter < this.state.limit.maxValue) {
 
             this.setState({
-                number: this.state.number + 1,
+                counter: this.state.counter + 1,
                 limit: {...this.state.limit, errorColor: false, errorEnd: false}
             })
 
-        } else if (this.state.number === this.state.limit.limitTop) {
+        } else if (this.state.counter === this.state.limit.maxValue) {
 
             this.setState({limit: {...this.state.limit, errorColor: true, errorEnd: false}})
 
-        } else if (this.state.number > this.state.limit.limitTop) {
+        } else if (this.state.counter >= this.state.limit.maxValue) {
 
-            this.setState({limit: {...this.state.limit, errorColor: false, errorEnd: true}});
+            this.setState({
+                counter: this.state.limit.errorEndText,
+                limit: {...this.state.limit, errorColor: false, errorEnd: true}
+            });
         }
     };
 
     onClickReset = () => {
-        this.setState({number: 0, limit: {...this.state.limit, errorColor: false, errorEnd: false}})
+        this.setState({counter: 0, limit: {...this.state.limit, errorColor: false, errorEnd: false}})
     };
+
+    onClickSettings = () => {
+
+    };
+
+
+    onChangeInputMaxValue = (value) => {
+        this.setState({limit: {...this.state.limit, maxValue: value.currentTarget.value} });
+    };
+    onChangeInputStartValue = (value) => {
+        this.setState({limit: {...this.state.limit, startValue: value.currentTarget.value} });
+    };
+
 
     render = () => {
         return (
@@ -49,15 +67,17 @@ class App extends React.Component {
                     <div>
                         <div className={`content`}>
                             <div className={`contentLine`}>
-                                <div>Max value</div><InputValue/>
+                                <div>Max value</div>
+                                <InputValue onChangeInput={() => this.onChangeInputMaxValue}/>
                             </div>
                             <div className={`contentLine`}>
-                                <div>Start value</div><InputValue/>
+                                <div>Start value</div>
+                                <InputValue onChangeInput={() => this.onChangeInputStartValue}/>
                             </div>
                         </div>
                         <div className={`interfaceManagement`}>
                             <Button onClickButton={() => this.onClickReset()}
-                                    buttonsTitle={this.state.buttons[1].buttonsTitle}/>
+                                    buttonsTitle={this.state.buttons[2].buttonsTitle}/>
                         </div>
                     </div>
                 </div>
@@ -65,7 +85,7 @@ class App extends React.Component {
                     <div>
                         <div className={`content`}>
                             <div>
-                                <ShowNumber limit={this.state.limit} number={this.state.number}/>
+                                <ShowNumber limit={this.state.limit} counter={this.state.counter}/>
                             </div>
                         </div>
                         <div className={`interfaceManagement`}>
