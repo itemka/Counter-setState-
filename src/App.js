@@ -22,7 +22,10 @@ class App extends React.Component {
     onClickPlusNumber = () => {
         if (this.state.number < this.state.limit.limitTop) {
 
-            this.setState({number: this.state.number + 1, limit: {...this.state.limit, errorColor: false, errorEnd: false}})
+            this.setState({
+                number: this.state.number + 1,
+                limit: {...this.state.limit, errorColor: false, errorEnd: false}
+            })
 
         } else if (this.state.number === this.state.limit.limitTop) {
 
@@ -40,14 +43,35 @@ class App extends React.Component {
 
     render = () => {
         return (
-            <div>
-
-                <ShowNumber limit={this.state.limit} number={this.state.number}/>
-                <Button onClickButton={() => this.onClickPlusNumber()}
-                        buttonsTitle={this.state.buttons[0].buttonsTitle}/>
-                <Button onClickButton={() => this.onClickReset()}
-                        buttonsTitle={this.state.buttons[1].buttonsTitle}/>
-
+            <div className={`generalBlock`}>
+                <div className={`bloks`}>
+                    <div>
+                        <div className={`content`}>
+                            <div>
+                                <ShowNumber limit={this.state.limit} number={this.state.number}/>
+                            </div>
+                        </div>
+                        <div className={`interfaceManagement`}>
+                            <Button onClickButton={() => this.onClickReset()}
+                                    buttonsTitle={this.state.buttons[1].buttonsTitle}/>
+                        </div>
+                    </div>
+                </div>
+                <div className={`bloks`}>
+                    <div>
+                        <div className={`content`}>
+                            <div>
+                                <ShowNumber limit={this.state.limit} number={this.state.number}/>
+                            </div>
+                        </div>
+                        <div className={`interfaceManagement`}>
+                            <Button onClickButton={() => this.onClickPlusNumber()}
+                                    buttonsTitle={this.state.buttons[0].buttonsTitle}/>
+                            <Button onClickButton={() => this.onClickReset()}
+                                    buttonsTitle={this.state.buttons[1].buttonsTitle}/>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
