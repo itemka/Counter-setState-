@@ -2,15 +2,14 @@
     width: 130px;
     color: red;
     font-size: 100px;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     text-align: center;
-
 }
 .colorNumberOk{
-    color: black;
+    color: #484545;
     width: 130px;
     color: rgba(0,0,0,0.91);
     font-size: 80px;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     text-align: center;
 }

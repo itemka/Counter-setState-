@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css';
 import Button from "./Components/Button/Button";
 import ShowNumber from "./Components/ShowNumber/ShowNumber";
+import InputValue from "./Components/InputValue/InputValue";
 
 class App extends React.Component {
 
@@ -47,8 +48,11 @@ class App extends React.Component {
                 <div className={`bloks`}>
                     <div>
                         <div className={`content`}>
-                            <div>
-                                <ShowNumber limit={this.state.limit} number={this.state.number}/>
+                            <div className={`contentLine`}>
+                                <div>Max value</div><InputValue/>
+                            </div>
+                            <div className={`contentLine`}>
+                                <div>Start value</div><InputValue/>
                             </div>
                         </div>
                         <div className={`interfaceManagement`}>
