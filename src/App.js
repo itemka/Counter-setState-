@@ -32,7 +32,8 @@ class App extends React.Component {
             });
         } else {
             this.setState({
-                limit: {...this.state.limit, errorEnd: true}})
+                limit: {...this.state.limit, errorEnd: true}
+            })
         }
     };
 
@@ -40,7 +41,8 @@ class App extends React.Component {
         this.setState({
             counter: this.state.limit.startValue,
             message: this.state.limit.startValue,
-            limit: {...this.state.limit, errorEnd: false}})
+            limit: {...this.state.limit, errorEnd: false}
+        })
     };
 
 
@@ -57,12 +59,14 @@ class App extends React.Component {
         return copyButtons;
     };
     onClickSet = () => {
-        this.setState({
-            counter: this.state.limit.startValue,
-            message: this.state.limit.startValue,
-            buttons: this.accessButtons(3, false),
-            limit: {...this.state.limit, errorEnd: false}
-        });
+        if (this.state.limit.maxValue > this.state.limit.startValue && this.state.limit.startValue >= 0) {
+            this.setState({
+                counter: this.state.limit.startValue,
+                message: this.state.limit.startValue,
+                buttons: this.accessButtons(3, false),
+                limit: {...this.state.limit, errorEnd: false}
+            });
+        }
     };
 
 
