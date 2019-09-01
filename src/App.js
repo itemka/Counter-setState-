@@ -8,7 +8,6 @@ class App extends React.Component {
 
     state = {
         counter: 0,
-        tempCounter: null,
         buttons: [
             {id: 1, buttonsTitle: '+', access: true},
             {id: 2, buttonsTitle: 'Reset', access: true},
@@ -18,8 +17,9 @@ class App extends React.Component {
             startValue: 0, maxValue: 5,
             errorColorStart: false, errorColorMax: false,
             errorEnd: false,
-            errorEndText: 'Stop'
         },
+        message: 0,
+        messageAccess: "Enter values and press 'Set'",
     };
 
 
@@ -27,15 +27,20 @@ class App extends React.Component {
         if (this.state.counter < this.state.limit.maxValue) {
             this.setState({
                 counter: this.state.counter + 1,
+                message: this.state.counter + 1,
                 limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
             });
         } else {
-            this.setState({limit: {...this.state.limit, errorEnd: true}})
+            this.setState({
+                limit: {...this.state.limit, errorEnd: true}})
         }
     };
 
     onClickReset = () => {
-        this.setState({counter: this.state.limit.startValue, limit: {...this.state.limit, errorEnd: false}})
+        this.setState({
+            counter: this.state.limit.startValue,
+            message: this.state.limit.startValue,
+            limit: {...this.state.limit, errorEnd: false}})
     };
 
 
@@ -54,7 +59,9 @@ class App extends React.Component {
     onClickSet = () => {
         this.setState({
             counter: this.state.limit.startValue,
-            buttons: this.accessButtons(3, false)
+            message: this.state.limit.startValue,
+            buttons: this.accessButtons(3, false),
+            limit: {...this.state.limit, errorEnd: false}
         });
     };
 
@@ -63,12 +70,14 @@ class App extends React.Component {
         if (event > this.state.limit.startValue) {
             this.setState({
                 buttons: this.accessButtons(3, true),
-                limit: {...this.state.limit, maxValue: event, errorColorMax: false}
+                limit: {...this.state.limit, maxValue: event, errorColorMax: false, errorEnd: false},
+                message: this.state.messageAccess,
             });
         } else {
             this.setState({
                 buttons: this.accessButtons(3, true),
-                limit: {...this.state.limit, maxValue: event, errorColorMax: true}
+                limit: {...this.state.limit, maxValue: event, errorColorMax: true, errorEnd: false},
+                message: this.state.messageAccess,
             });
         }
     };
@@ -77,12 +86,14 @@ class App extends React.Component {
         if ((event >= 0) && (event < this.state.limit.maxValue)) {
             this.setState({
                 buttons: this.accessButtons(3, true),
-                limit: {...this.state.limit, startValue: event, errorColorStart: false}
+                limit: {...this.state.limit, startValue: event, errorColorStart: false, errorEnd: false},
+                message: this.state.messageAccess,
             });
         } else if ((event < 0) || (event >= this.state.limit.maxValue)) {
             this.setState({
                 buttons: this.accessButtons(3, true),
-                limit: {...this.state.limit, startValue: event, errorColorStart: true}
+                limit: {...this.state.limit, startValue: event, errorColorStart: true, errorEnd: false},
+                message: this.state.messageAccess,
             });
         }
     };
@@ -118,7 +129,7 @@ class App extends React.Component {
                     <div>
                         <div className={`content`}>
                             <div>
-                                <ShowNumber limit={this.state.limit} counter={this.state.counter}/>
+                                <ShowNumber limit={this.state.limit} message={this.state.message}/>
                             </div>
                         </div>
                         <div className={`interfaceManagement`}>

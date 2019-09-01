@@ -5,7 +5,7 @@ const ShowNumber = props => {
     let styleNumber = props.limit.errorEnd === true ? `${css.colorNumberEnd}` : `${css.colorNumberOk}`;
     return (
         <div className={styleNumber}>
-            {props.counter}
+            {props.message}
         </div>
     );
 };
