@@ -2,6 +2,7 @@ import React from 'react';
 import css from './InputValue.module.css';
 
 const InputValue = props => {
+    debugger
     let errorColor = props.errorColor === true? `${css.backgroundError}`:``;
     return (
         <>

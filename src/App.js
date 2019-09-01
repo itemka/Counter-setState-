@@ -5,78 +5,86 @@ import ShowNumber from "./Components/ShowNumber/ShowNumber";
 import InputValue from "./Components/InputValue/InputValue";
 
 class App extends React.Component {
-    constructor(props){
-        super(props);
-    }
+
     state = {
         counter: 0,
+        tempCounter: null,
         buttons: [
-            {id: 1, buttonsTitle: '+'},
-            {id: 2, buttonsTitle: 'Reset'},
-            {id: 3, buttonsTitle: 'Settings'},
+            {id: 1, buttonsTitle: '+', access: true},
+            {id: 2, buttonsTitle: 'Reset', access: true},
+            {id: 3, buttonsTitle: 'Set', access: false},
         ],
         limit: {
-            startValue: 0,
-            maxValue: 1,
-            errorColorStart: false,
-            errorColorMax: false,
+            startValue: 0, maxValue: 5,
+            errorColorStart: false, errorColorMax: false,
             errorEnd: false,
             errorEndText: 'Stop'
         },
     };
 
+
     onClickPlusNumber = () => {
         if (this.state.counter < this.state.limit.maxValue) {
-
             this.setState({
                 counter: this.state.counter + 1,
                 limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
             });
-            console.log(this.state.counter)
-
-        } else if (this.state.counter === this.state.limit.maxValue) {
-
-            this.setState({limit: {...this.state.limit, errorEnd: false}})
-
-        } else if (this.state.counter >= this.state.limit.maxValue) {
-
-            this.setState({
-                counter: this.state.limit.errorEndText,
-                limit: {...this.state.limit, errorEnd: true}
-            });
+        } else {
+            this.setState({limit: {...this.state.limit, errorEnd: true}})
         }
     };
 
-    onClickReset = () => { this.setState({counter: this.state.limit.startValue}) };
+    onClickReset = () => {
+        this.setState({counter: this.state.limit.startValue, limit: {...this.state.limit, errorEnd: false}})
+    };
 
-    onClickSettings = () => {
-        this.setState({counter: this.state.limit.startValue});
+
+    accessButtons = (id, access) => {
+        let copyButtons = this.state.buttons.map(item => {
+            if (item.id === 3) {
+                item.access = access;
+                return item;
+            } else {
+                item.access = !access;
+                return item;
+            }
+        });
+        return copyButtons;
+    };
+    onClickSet = () => {
+        this.setState({
+            counter: this.state.limit.startValue,
+            buttons: this.accessButtons(3, false)
+        });
     };
 
 
     onChangeInputMaxValue = (event) => {
-        if (this.state.limit.maxValue <= this.state.limit.startValue) {
-            this.setState(
-                {limit: {...this.state.limit, maxValue: event}},
-                () => this.state.limit.errorColorMax = true);
+        if (event > this.state.limit.startValue) {
+            this.setState({
+                buttons: this.accessButtons(3, true),
+                limit: {...this.state.limit, maxValue: event, errorColorMax: false}
+            });
         } else {
             this.setState({
-                limit: {
-                    ...this.state.limit,
-                    maxValue: event
-                }
-            }, () => this.state.limit.errorColorMax = false);
+                buttons: this.accessButtons(3, true),
+                limit: {...this.state.limit, maxValue: event, errorColorMax: true}
+            });
         }
-        console.log(event);
     };
 
     onChangeInputStartValue = (event) => {
-        if ((this.state.limit.startValue < 0) || (this.state.limit.startValue >= this.state.limit.maxValue)) {
-            this.setState({limit: {...this.state.limit, startValue: event, errorColorStart: true}});
-        } else {
-            this.setState({limit: {...this.state.limit, startValue: event, errorColorStart: false}});
+        if ((event >= 0) && (event < this.state.limit.maxValue)) {
+            this.setState({
+                buttons: this.accessButtons(3, true),
+                limit: {...this.state.limit, startValue: event, errorColorStart: false}
+            });
+        } else if ((event < 0) || (event >= this.state.limit.maxValue)) {
+            this.setState({
+                buttons: this.accessButtons(3, true),
+                limit: {...this.state.limit, startValue: event, errorColorStart: true}
+            });
         }
-        console.log(event);
     };
 
 
@@ -100,8 +108,9 @@ class App extends React.Component {
                             </div>
                         </div>
                         <div className={`interfaceManagement`}>
-                            <Button onClickButton={this.onClickSettings.bind(this.state)}
-                                    buttonsTitle={this.state.buttons[2].buttonsTitle}/>
+                            <Button onClickButton={this.onClickSet.bind(this.state)}
+                                    buttonsTitle={this.state.buttons[2].buttonsTitle}
+                                    access={this.state.buttons[2].access}/>
                         </div>
                     </div>
                 </div>
@@ -114,9 +123,11 @@ class App extends React.Component {
                         </div>
                         <div className={`interfaceManagement`}>
                             <Button onClickButton={this.onClickPlusNumber.bind(this.state)}
-                                    buttonsTitle={this.state.buttons[0].buttonsTitle}/>
+                                    buttonsTitle={this.state.buttons[0].buttonsTitle}
+                                    access={this.state.buttons[0].access}/>
                             <Button onClickButton={this.onClickReset.bind(this.state)}
-                                    buttonsTitle={this.state.buttons[1].buttonsTitle}/>
+                                    buttonsTitle={this.state.buttons[1].buttonsTitle}
+                                    access={this.state.buttons[1].access}/>
                         </div>
                     </div>
                 </div>
