@@ -2,14 +2,11 @@ import React from 'react';
 import css from './InputValue.module.css';
 
 const InputValue = props => {
-
-    let onChangeInput = (e) => {
-        props.onChangeInput(e);
-    };
-
+    let errorColor = props.errorColor === true? `${css.backgroundError}`:``;
     return (
         <>
-            <input type={`number`} className={css.inputValue} onChange={()=>onChangeInput()}/>
+            <input type={`number`} value={props.value} className={`${css.inputValue} ${errorColor}`}
+                   onChange={(e) => props.onChangeInput(e.currentTarget.value)}/>
         </>
     );
 };
