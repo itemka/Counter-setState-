@@ -20,16 +20,27 @@ class App extends React.Component {
         },
         message: 0,
         messageAccess: "Enter values and press 'Set'",
+        messageError: "Incorrect value!"
     };
 
 
     onClickPlusNumber = () => {
         if (this.state.counter < this.state.limit.maxValue) {
-            this.setState({
-                counter: this.state.counter + 1,
-                message: this.state.counter + 1,
-                limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
-            });
+
+                if (this.state.counter < this.state.limit.maxValue - 1) {
+                    this.setState({
+                        counter: this.state.counter + 1,
+                        message: this.state.counter + 1,
+                        limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
+                    });
+                } else {
+                    this.setState({
+                        counter: this.state.counter + 1,
+                        message: this.state.counter + 1,
+                        limit: {...this.state.limit, errorEnd: true}
+                    })
+                }
+
         } else {
             this.setState({
                 limit: {...this.state.limit, errorEnd: true}
@@ -58,6 +69,7 @@ class App extends React.Component {
         });
         return copyButtons;
     };
+
     onClickSet = () => {
         if (this.state.limit.maxValue > this.state.limit.startValue && this.state.limit.startValue >= 0) {
             this.setState({
@@ -81,7 +93,7 @@ class App extends React.Component {
             this.setState({
                 buttons: this.accessButtons(3, true),
                 limit: {...this.state.limit, maxValue: event, errorColorMax: true, errorEnd: false},
-                message: this.state.messageAccess,
+                message: this.state.messageError,
             });
         }
     };
@@ -97,7 +109,7 @@ class App extends React.Component {
             this.setState({
                 buttons: this.accessButtons(3, true),
                 limit: {...this.state.limit, startValue: event, errorColorStart: true, errorEnd: false},
-                message: this.state.messageAccess,
+                message: this.state.messageError,
             });
         }
     };

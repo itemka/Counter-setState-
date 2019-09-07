@@ -6,7 +6,7 @@ const InputValue = props => {
     return (
         <>
             <input type={`number`} value={props.value} className={`${css.inputValue} ${errorColor}`}
-                   onChange={(e) => props.onChangeInput(+e.currentTarget.value)}/>
+                   onChange={event => props.onChangeInput(+event.currentTarget.value)}/>
         </>
     );
 };
