@@ -27,19 +27,19 @@ class App extends React.Component {
     onClickPlusNumber = () => {
         if (this.state.counter < this.state.limit.maxValue) {
 
-                if (this.state.counter < this.state.limit.maxValue - 1) {
-                    this.setState({
-                        counter: this.state.counter + 1,
-                        message: this.state.counter + 1,
-                        limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
-                    });
-                } else {
-                    this.setState({
-                        counter: this.state.counter + 1,
-                        message: this.state.counter + 1,
-                        limit: {...this.state.limit, errorEnd: true}
-                    })
-                }
+            if (this.state.counter < this.state.limit.maxValue - 1) {
+                this.setState({
+                    counter: this.state.counter + 1,
+                    message: this.state.counter + 1,
+                    limit: {...this.state.limit, errorColorStart: false, errorColorMax: false, errorEnd: false}
+                });
+            } else {
+                this.setState({
+                    counter: this.state.counter + 1,
+                    message: this.state.counter + 1,
+                    limit: {...this.state.limit, errorEnd: true}
+                })
+            }
 
         } else {
             this.setState({
@@ -166,6 +166,7 @@ class App extends React.Component {
 export default App;
 
 // Побаловался
+
 // limit: {number: 0, T: 3, B: -3, error: 'Stop'}
 // onClickButton = isDone => {
 //     if (isDone) {
